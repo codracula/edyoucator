@@ -1,0 +1,55 @@
+{
+    "algebraQuestions": [
+        {
+            "id": 1,
+            "question": "Solve for x : 2x + 3 = 11",
+            "type" : "equation"
+        },
+
+        {
+            "id": 2,
+            "question": "Find the value of y if 3y - 4 = 2y + 5",
+            "type": "equation"
+        },
+        {
+            "id": 3,
+            "question": "Simplify: 4(a - 3) + 2a",
+            "type": "expression"
+        },
+        {
+            "id": 4,
+            "question": "Factorize: x^2 - 5x + 6",
+            "type": "factorization"
+        },
+        {
+            "id": 5,
+            "question": "Solve for x: x^2 + 2x - 8 = 0",
+            "type": "quadratic equation"
+        },
+        {
+            "id": 6,
+            "question": "If 5x + 3 = 4 - 2x, what is the value of x?",
+            "type": "equation"
+        },
+        {
+            "id": 7,
+            "question": "Simplify the expression: 2x(3x - 4) + x(2 - x)",
+            "type": "expression"
+        },
+        {
+            "id": 8,
+            "question": "Solve the inequality: 3x - 5 > 16",
+            "type": "inequality"
+        },
+        {
+            "id": 9,
+            "question": "Find the roots of the quadratic equation: x^2 - 6x + 9 = 0",
+            "type": "quadratic equation"
+        },
+        {
+            "id": 10,
+            "question": "Expand and simplify: (x - 4)(x + 5)",
+            "type": "expansion"
+        }
+    ]
+}
