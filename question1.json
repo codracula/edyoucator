@@ -2,54 +2,113 @@
     "algebraQuestions": [
         {
             "id": 1,
-            "question": "Solve for x : 2x + 3 = 11",
-            "type" : "equation"
+            "question": "Solve for x: 2x + 3 = 11",
+            "options": {
+                "a": "x = 4",
+                "b": "x = 5",
+                "c": "x = 3",
+                "d": "x = 2"
+            },
+            "answer": "a"
         },
-
         {
             "id": 2,
             "question": "Find the value of y if 3y - 4 = 2y + 5",
-            "type": "equation"
+            "options": {
+                "a": "y = 9",
+                "b": "y = -9",
+                "c": "y = 1",
+                "d": "y = -1"
+            },
+            "answer": "c"
         },
         {
             "id": 3,
-            "question": "Simplify: 4(a - 3) + 2a",
-            "type": "expression"
+            "question": "If 5x + 3 = 4 - 2x, what is the value of x?",
+            "options": {
+                "a": "x = -1/7",
+                "b": "x = 1/7",
+                "c": "x = 7",
+                "d": "x = -7"
+            },
+            "answer": "b"
         },
         {
             "id": 4,
-            "question": "Factorize: x^2 - 5x + 6",
-            "type": "factorization"
+            "question": "Find the value of x in the equation 2x - 7 = 15",
+            "options": {
+                "a": "x = 11",
+                "b": "x = 22",
+                "c": "x = -11",
+                "d": "x = -22"
+            },
+            "answer": "a"
         },
         {
             "id": 5,
-            "question": "Solve for x: x^2 + 2x - 8 = 0",
-            "type": "quadratic equation"
+            "question": "Calculate x when x/3 + 5 = 8",
+            "options": {
+                "a": "x = 9",
+                "b": "x = 3",
+                "c": "x = 6",
+                "d": "x = 12"
+            },
+            "answer": "a"
         },
         {
             "id": 6,
-            "question": "If 5x + 3 = 4 - 2x, what is the value of x?",
-            "type": "equation"
+            "question": "Solve for x in the equation 3(2x - 4) = 18",
+            "options": {
+                "a": "x = 5",
+                "b": "x = 4",
+                "c": "x = 6",
+                "d": "x = 7"
+            },
+            "answer": "b"
         },
         {
             "id": 7,
-            "question": "Simplify the expression: 2x(3x - 4) + x(2 - x)",
-            "type": "expression"
+            "question": "Find x if 4x + 2 = 3x + 8",
+            "options": {
+                "a": "x = 6",
+                "b": "x = -6",
+                "c": "x = 5",
+                "d": "x = -5"
+            },
+            "answer": "c"
         },
         {
             "id": 8,
-            "question": "Solve the inequality: 3x - 5 > 16",
-            "type": "inequality"
+            "question": "Solve for x: x/2 - 6 = 3",
+            "options": {
+                "a": "x = 18",
+                "b": "x = -18",
+                "c": "x = 9",
+                "d": "x = -9"
+            },
+            "answer": "a"
         },
         {
             "id": 9,
-            "question": "Find the roots of the quadratic equation: x^2 - 6x + 9 = 0",
-            "type": "quadratic equation"
+            "question": "Determine the value of x in the equation 5x = 20",
+            "options": {
+                "a": "x = 5",
+                "b": "x = 4",
+                "c": "x = 3",
+                "d": "x = 2"
+            },
+            "answer": "b"
         },
         {
             "id": 10,
-            "question": "Expand and simplify: (x - 4)(x + 5)",
-            "type": "expansion"
+            "question": "Solve for x in the equation x + 7 = 2x - 3",
+            "options": {
+                "a": "x = 10",
+                "b": "x = -10",
+                "c": "x = 5",
+                "d": "x = -5"
+            },
+            "answer": "c"
         }
     ]
 }
