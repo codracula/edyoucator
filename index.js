@@ -457,9 +457,9 @@ app.get('/quizzes', (req, res) => {
 // RESTful API Endpoint: POST /quizzes
 // Create a new quiz
 app.post('/quizzes', (req, res) => {
-    const { quizname, totalquestion, questionnumber, question, choices } = req.body;
-    const sqlInsert = 'INSERT INTO quizzes (quizname, totalquestion, questionnumber, question, choices) VALUES (?, ?, ?, ?, ?)';
-    dbConnection.query(sqlInsert, [quizname, totalquestion, questionnumber, question, choices], (error, result) => {
+    const { quizid, question, a, b, c, d, answer } = req.body;
+    const sqlInsert = 'INSERT INTO quizzes (quizid, question, a, b, c, d, answer) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    dbConnection.query(sqlInsert, [quizid, question, a, b, c, d, answer], (error, result) => {
         if (error) {
             return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
         }
@@ -467,32 +467,40 @@ app.post('/quizzes', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: PUT /quizzes/:id
+// RESTful API Endpoint: PUT /quizzes/:questionsnumber
 // Update an existing quiz
-app.put('/quizzes/:id', (req, res) => {
-    const id = req.params.id;
-    const { quizname, totalquestion, questionnumber, question, choices } = req.body;
-    const sqlUpdate = 'UPDATE quizzes SET quizname = ?, totalquestion = ?, questionnumber = ?, question = ?, choices = ? WHERE quizid = ?';
-    dbConnection.query(sqlUpdate, [quizname, totalquestion, questionnumber, question, choices, id], (error, result) => {
+app.put('/quizzes/:questionnumber', (req, res) => {
+    const questionnumber = req.params.questionnumber;
+    const { quizid, question, a, b, c, d, answer } = req.body;
+    const sqlUpdate = 'UPDATE quizzes SET quizid = ?, question = ?, a = ?, b = ?, c = ?, d = ?, answer = ? WHERE questionnumber = ?';
+    dbConnection.query(sqlUpdate, [quizid, question, a, b, c, d, answer, questionnumber], (error, result) => {
         if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
+            return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'No quiz found with the given question number.' });
         }
         return res.status(200).json({ message: 'Quiz updated successfully!' });
     });
 });
 
-// RESTful API Endpoint: DELETE /quizzes/:id
-// Delete a quiz
-app.delete('/quizzes/:id', (req, res) => {
-    const id = req.params.id;
-    const sqlDelete = 'DELETE FROM quizzes WHERE quizid = ?';
-    dbConnection.query(sqlDelete, [id], (error, result) => {
+
+// RESTful API Endpoint: DELETE /quizzes/:questionnumber
+// Delete a quiz based on question number
+app.delete('/quizzes/:questionnumber', (req, res) => {
+    const questionnumber = req.params.questionnumber;
+    const sqlDelete = 'DELETE FROM quizzes WHERE questionnumber = ?';
+    dbConnection.query(sqlDelete, [questionnumber], (error, result) => {
         if (error) {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
-        return res.status(200).json({ message: `Quiz with ID ${id} deleted successfully!` });
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: `No quiz found with question number ${questionnumber}.` });
+        }
+        return res.status(200).json({ message: `Quiz with question number ${questionnumber} deleted successfully!` });
     });
 });
+
 
 // Users
 // RESTful API Endpoint: GET /users
