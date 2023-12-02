@@ -2,6 +2,7 @@
 const express = require("express");         // Express framework for handling HTTP requests
 const cors = require("cors");               // CORS middleware for handling cross-origin requests
 const dbConnection = require("./config");   // MySQL database configuration module
+const axios = require('axios');
 
 // Create an instance of Express application
 var app = express();
@@ -10,141 +11,6 @@ var app = express();
 app.use(cors());                                    // Enable CORS for all routes
 app.use(express.json());                            // Parse JSON payloads in incoming requests
 app.use(express.urlencoded({ extended: true}));     // Parse URL-encoded payloads 
-
-// Algebra questions 
-// RESTful API Endpoint: GET
-// Retrieve all the algebra questions from the database
-// URI http://localhost:port/algebra_questions
-app.get('/algebra_questions', (req, res) => {
-    const sqlQuery = 'SELECT * FROM algebra_questions';
-    dbConnection.query (sqlQuery, (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in the SQL Statement. Please check.'});
-        }
-
-        return res.status(200).json(result);
-    });
-});
-
-// RESTful API Endpoint: POST
-// Creates a new algebra question in the database
-// URI http://localhost:port/algebra_questions
-app.post('/algebra_questions', (req, res) => {
-    // data from the thunder client
-    const {question, option_a, option_b, option_c, option_d, answer} = req.body;
-
-    // Using INSERT query
-    const sqlInsert = `INSERT INTO algebra_questions (question, option_a, option_b, option_c, option_d, answer) VALUES (?, ?, ?, ?, ?, ?)`;
-    dbConnection.query(sqlInsert, [question, option_a, option_b, option_c, option_d, answer], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in the SQL statement. Please check.'});
-        }
-        return res.status(200).json({message: 'Added new question successfully!'});
-    });
-});
-
-// RESTful API Endpoint: PUT
-// Updates the existing algebra question
-// URI http://localhost:port/algebra_questions/:id
-app.put('/algebra_questions/:id', (req, res) => {
-    const id = req.params.id;
-
-    const {question, option_a, option_b, option_c, option_d, answer} = req.body;
-
-    const sqlUpdate = `UPDATE algebra_questions SET question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, answer = ? WHERE id = ?`;
-
-    dbConnection.query(sqlUpdate, [question, option_a, option_b, option_c, option_d, answer, id], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in SQL query. Please check.'});
-        }
-        return res.status(200).json({message: 'Question updated successfully!'});
-    });
-});
-
-// RESTful API Endpoint: DELETE
-// Deletes a existing algebra question by id number
-// URI http://localhost:port/algebra_questions/:id
-app.delete('/algebra_questions/:id', (req, res) => {
-    const id = req.params.id;
-
-    const sqlDelete = 'DELETE FROM algebra_questions WHERE id = ?';
-
-    dbConnection.query(sqlDelete, [id], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in SQL query. Please check.'});
-        }
-
-        return res.status(200).json({message: 'Question with Id ${id} deleted successfully!'});
-    });
-});
-
-// Chemestry quetions
-// RESTful API Endpoint: GET
-// Retrieve all the algebra questions from the database
-// URI http://localhost:port/algebra_questions
-app.get('/chemistry_questions', (req, res) => {
-    const sqlQuery = 'SELECT * FROM chemistry_questions';
-    dbConnection.query (sqlQuery, (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in the SQL Statement. Please check.'});
-        }
-
-        return res.status(200).json(result);
-    });
-});
-
-// RESTful API Endpoint: POST
-// Creates a new algebra question in the database
-// URI http://localhost:port/algebra_questions
-app.post('/chemistry_questions', (req, res) => {
-    // data from the thunder client
-    const {question, option_a, option_b, option_c, option_d, answer} = req.body;
-
-    // Using INSERT query
-    const sqlInsert = `INSERT INTO chemistry_questions (question, option_a, option_b, option_c, option_d, answer) VALUES (?, ?, ?, ?, ?, ?)`;
-    dbConnection.query(sqlInsert, [question, option_a, option_b, option_c, option_d, answer], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in the SQL statement. Please check.'});
-        }
-        return res.status(200).json({message: 'Added new question successfully!'});
-    });
-});
-
-// RESTful API Endpoint: PUT
-// Updates the existing algebra question
-// URI http://localhost:port/algebra_questions/:id
-app.put('/chemistry_questions/:id', (req, res) => {
-    const id = req.params.id;
-
-    const {question, option_a, option_b, option_c, option_d, answer} = req.body;
-
-    const sqlUpdate = `UPDATE chemistry_questions SET question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, answer = ? WHERE id = ?`;
-
-    dbConnection.query(sqlUpdate, [question, option_a, option_b, option_c, option_d, answer, id], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in SQL query. Please check.'});
-        }
-        return res.status(200).json({message: 'Question updated successfully!'});
-    });
-});
-
-// RESTful API Endpoint: DELETE
-// Deletes a existing algebra question by id number
-// URI http://localhost:port/algebra_questions/:id
-app.delete('/chemistry_questions/:id', (req, res) => {
-    const id = req.params.id;
-
-    const sqlDelete = 'DELETE FROM chemistry_questions WHERE id = ?';
-
-    dbConnection.query(sqlDelete, [id], (error, result) => {
-        if (error) {
-            return res.status(400).json({error: 'Error in SQL query. Please check.'});
-        }
-
-        return res.status(200).json({message: 'Question with Id ${id} deleted successfully!'});
-    });
-});
-
 
 // Admins
 // RESTful API Endpoint: GET /admins
@@ -213,74 +79,6 @@ app.delete('/admins/:userid', (req, res) => {
     });
 });
 
-// Answers
-// RESTful API Endpoint: GET /answers
-// Retrieve all answers
-app.get('/answers', (req, res) => {
-    const sqlQuery = 'SELECT * FROM answers';
-    dbConnection.query(sqlQuery, (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json(result);
-    });
-});
-
-// RESTful API Endpoint: GET /answers/:quizid
-// Retrieve answers for a specific quiz
-app.get('/answers/:quizid', (req, res) => {
-    const quizid = req.params.quizid;
-    const sqlQuery = 'SELECT * FROM answers WHERE quizid = ?';
-    dbConnection.query(sqlQuery, [quizid], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json(result);
-    });
-});
-
-// RESTful API Endpoint: POST /answers
-// Add a new answer
-app.post('/answers', (req, res) => {
-    const { quizid, questionnumber, question, answer } = req.body;
-    const sqlInsert = 'INSERT INTO answers (quizid, questionnumber, question, answer) VALUES (?, ?, ?, ?)';
-    dbConnection.query(sqlInsert, [quizid, questionnumber, question, answer], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
-        }
-        return res.status(200).json({ message: 'New answer added successfully!' });
-    });
-});
-
-// RESTful API Endpoint: PUT /answers/:quizid/:questionnumber
-// Update an existing answer
-app.put('/answers/:quizid/:questionnumber', (req, res) => {
-    const quizid = req.params.quizid;
-    const questionnumber = req.params.questionnumber;
-    const { question, answer } = req.body;
-    const sqlUpdate = 'UPDATE answers SET question = ?, answer = ? WHERE quizid = ? AND questionnumber = ?';
-    dbConnection.query(sqlUpdate, [question, answer, quizid, questionnumber], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json({ message: 'Answer updated successfully!' });
-    });
-});
-
-// RESTful API Endpoint: DELETE /answers/:quizid/:questionnumber
-// Delete an answer
-app.delete('/answers/:quizid/:questionnumber', (req, res) => {
-    const quizid = req.params.quizid;
-    const questionnumber = req.params.questionnumber;
-    const sqlDelete = 'DELETE FROM answers WHERE quizid = ? AND questionnumber = ?';
-    dbConnection.query(sqlDelete, [quizid, questionnumber], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json({ message: `Answer for quiz ID ${quizid}, question number ${questionnumber} deleted successfully!` });
-    });
-});
-
 // Authentication
 // RESTful API Endpoint: GET /authentication/:userID
 // Retrieve a user's authentication details
@@ -292,46 +90,6 @@ app.get('/authentication/:userID', (req, res) => {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
         return res.status(200).json(result);
-    });
-});
-
-// RESTful API Endpoint: POST /authentication
-// Add a new user's authentication details
-app.post('/authentication', (req, res) => {
-    const { userID, password } = req.body;
-    const sqlInsert = 'INSERT INTO authentication (userID, password) VALUES (?, ?)';
-    dbConnection.query(sqlInsert, [userID, password], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
-        }
-        return res.status(200).json({ message: 'New user authentication added successfully!' });
-    });
-});
-
-// RESTful API Endpoint: PUT /authentication/:userID
-// Update an existing user's password
-app.put('/authentication/:userID', (req, res) => {
-    const userID = req.params.userID;
-    const { password } = req.body;
-    const sqlUpdate = 'UPDATE authentication SET password = ? WHERE userID = ?';
-    dbConnection.query(sqlUpdate, [password, userID], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json({ message: 'User password updated successfully!' });
-    });
-});
-
-// RESTful API Endpoint: DELETE /authentication/:userID
-// Delete a user's authentication details
-app.delete('/authentication/:userID', (req, res) => {
-    const userID = req.params.userID;
-    const sqlDelete = 'DELETE FROM authentication WHERE userID = ?';
-    dbConnection.query(sqlDelete, [userID], (error, result) => {
-        if (error) {
-            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
-        }
-        return res.status(200).json({ message: `Authentication details for user ID ${userID} deleted successfully!` });
     });
 });
 
@@ -605,6 +363,18 @@ app.delete('/user_responses/:id', (req, res) => {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
         return res.status(200).json({ message: `Response with ID ${id} deleted successfully!` });
+    });
+});
+
+// RESTful API Endpoint: GET /leaderboard
+// Retrieve leaderboard data
+app.get('/leaderboard', (req, res) => {
+    const sqlQuery = 'SELECT * FROM leaderboard ORDER by score DESC';
+    dbConnection.query(sqlQuery, (error, result) => {
+        if (error) {
+            return res.status(400).json({error: 'Error in SQL query. Please check.'});
+        }
+        return res.status(200).json(result);
     });
 });
 
