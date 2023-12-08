@@ -3,6 +3,7 @@ const express = require("express");         // Express framework for handling HT
 const cors = require("cors");               // CORS middleware for handling cross-origin requests
 const dbConnection = require("./config");   // MySQL database configuration module
 const axios = require('axios');
+var bodyParser = require('body-parser');
 
 // Create an instance of Express application
 var app = express();
@@ -283,6 +284,30 @@ app.post('/users', (req, res) => {
             return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
         }
         return res.status(200).json({ message: 'New user created successfully!' });
+    });
+});
+
+// RESTful API Endpoint: POST /users
+// Checking password for the exiting user for authentiation
+app.post('/cred', (req, res) => {
+    // const {userID, password} = req.body;
+    const userID = parseInt(req.body.userID);
+    const password = req.body.password;
+    console.log(userID, password);
+
+    const query = 'SELECT * FROM authentication WHERE userID =?  AND password = ?';
+    // const sqlQuery = "SELECT name FROM menu where price BETWEEN'" + low + "' and  '" + high + "';";
+    dbConnection.query(query, [userID, password], (error, result) => {
+
+        if (error) {
+            // console.error(error.message);
+            return res.status(500).json({ error: 'Error in SQL statement. Please check.' });
+        }
+        if (result) {
+            res.status(200).json({success: true, message: 'credential is valid'});
+        }else {
+            res.status(200).json({sucess: false, message: 'Invalid credential'});
+        }
     });
 });
 

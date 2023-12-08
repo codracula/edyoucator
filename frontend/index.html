@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>edYoucator</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="edu.js"></script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
@@ -30,16 +29,17 @@
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control" />
+              <input id="username" type="text" placeholder="username" class="form-control" />
             </div>
             <div class="form-group">
               <input
                 type="password"
+                id="password"
                 placeholder="Password"
                 class="form-control"
               />
             </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
+            <button id="signin-submit" type="submit" class="btn btn-success">Sign in</button>
             <button id="register" class="btn btn-success">New user</button>
           </form>
         </div>
@@ -55,51 +55,21 @@
         <h4>Welcome to <span class="edu">edYOUcator</span></h4>
         <p>description...</p>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum. reprehenderit
-          in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-          officia deserunt mollit anim id est laborum.
+          Welcome to Edyoucator, the innovative quizzing platform that 
+          empowers users to become educators by creating and sharing quizzes 
+          with a global audience. Edyoucator is not just a platform; it's a 
+          community-driven space where knowledge knows no bounds. Whether 
+          you're a teacher looking to engage your students, a subject matter 
+          expert wanting to share your expertise, or simply an enthusiast 
+          eager to challenge others with your unique quiz ideas, Edyoucator is 
+          the stage where learning meets fun.
         </p>
-        <div class="quoteTable">
-          <div class="quoteMod">
-            <img src="" />
-            <p>testimnial quuote1</p>
-          </div>
-          <div class="quoteMod">
-            <img src="" />
-            <p>testimnial quuote2</p>
-          </div>
-          <div class="quoteMod">
-            <img src="" />
-            <p>testimnial quuote3</p>
-          </div>
-        </div>
-        <table>
-          <h4>Latest pubilc quizzes added</h4>
-          <p></p>
-          <ul>
-            <li>(Name of the quiz) as of...(date of quiz last modified)</li>
-            <li>(Name of the quiz) as of...(date of quiz last modified)</li>
-            <li>(Name of the quiz) as of...(date of quiz last modified)</li>
-            <li>(Name of the quiz) as of...(date of quiz last modified)</li>
-          </ul>
-        </table>
       </div>
       <div id="jokes-container"></div>
     </div>
 
     <div class="footer"></div>
-    <script
-      src="https://code.jquery.com/jquery-1.12.4.min.js"
-      integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
@@ -108,24 +78,75 @@
     ></script>
     <script>
       $(function () {
-        $("#register").on("click", function () {
+
+        // $("#register").on("click", function (event) {
+        //   event.preventDefault();
+
+        // });
+        $("#signin-submit").click(async function(e) {
+          e.preventDefault();
+          var userID = $('#username').val();
+          var password = $('#password').val();
+         
+          console.log("user/password: " + userID, password);
+          $.ajax({
+                method: 'POST',
+                url: 'http://localhost:3000/cred',
+                // data: {userID, password},
+                dataType: "json",
+                data: JSON.stringify({
+                userID: $('#username').val(), 
+                password: $('#password').val()
+                }),
+                headers: {'Content-Type': 'application/json', //must be double quoted
+                          'userID': userID
+                },
+
+                // contentType: 'application/json',  //attrib of header
+                success: function(result) {
+                  console.log("log in success");
+                },
+                error: function(jqXHR) {
+                    console.error('Error: ', jqXHR.responseText);
+                    console.log("error from authentication");
+                }
+            });
+
+          const done = $('<h3>signing in...</h3>')
+          $(".mainarea").empty();
+          $(".mainarea").append(done);
+          console.log("Form submitted!");
+        });
+        $("#regsubmit").on("submit", "#registrationForm", function(e) {
+          e.preventDefault();
+          $(".mainarea").empty();
+          const done = $('<h3>Form submitted</h3>')
+          $(".mainarea").append(done);
+          console.log("Form submitted!");
+        });
+        $("#register").on("click", function (event) {
+          event.preventDefault();
           console.log("test");
           $(".mainarea").empty();
           var form = $(
-            '<form><h3>Registration form</h3>\
-                <table class="customer"></table>\
-                <label>I agree to the <a href="#">terms of the site</a></label><br>\
-                <button type="submit" id="register" class="btn btn-success">\
-                    Submit\
-                </button>\
+            '<form id="registationForm">\
+            <h4>New User Registration Form:</h4>\
+            <input type="text" id="username" placeholder="username" name="username" /><br /><br />\
+            <input type="text" id="password" placeholder="password" name="password" />\
+            <h4>Full Name</h4>\
+            <input type="firstname" id="firstname" placeholder="first" name="firstname" /><br /><br />\
+            <input type="lastname" id="lastname" placeholder="last" name="lastname" /><br /><br />\
+            <input type="text" id="email" placeholder="email" name="email" /><br /><br />\
+            <button id="regsubmit" type="submit" class="btn btn-success">Submit</button>\
             </form>'
           );
           $(".mainarea").append(form);
         });
+
       });
 
       $(document).ready(function() {
-        // Function to fetch jokes
+        //Function to fetch jokes
         function fetchJokes() {
             var limit = 3; // Number of jokes to fetch
             $.ajax({
@@ -152,7 +173,7 @@
         }
 
         // Fetch and display jokes when the page loads
-        fetchJokes();
+        // fetchJokes();  //turning off to save quota
     });
     </script>
   </body>
