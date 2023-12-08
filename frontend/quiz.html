@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Page</title>
+    <title>Quiz Taker</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 <body>
-    <div class="container">
-        <div id="quiz">
-            <h2>Quiz Title</h2>
-            <div id="question">Question</div>
-            <div id="options">
-                
-            </div>
-            <button id="next-question">Next Question</button>
-            <button id="submit-quiz">Submit Quiz</button>
-        </div>
+    <div id="quiz-container">
+        <!-- Quiz questions will be loaded here dynamically -->
     </div>
+    <button id="submit-quiz">Next</button>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="quiz.js"></script>
 </body>
 </html>
