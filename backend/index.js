@@ -2,8 +2,34 @@
 const express = require("express");         // Express framework for handling HTTP requests
 const cors = require("cors");               // CORS middleware for handling cross-origin requests
 const dbConnection = require("./config");   // MySQL database configuration module
-const axios = require('axios');
-var bodyParser = require('body-parser');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
+// Define Swagger options
+const options = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'TCSS 460 Project API',
+        version: '1.0.0',
+        description: 'API Documentation for the TCSS 460 Project.',
+      },
+    },
+    apis: [path.join(__dirname, '*.js')],
+};
+
+// Initialize Swagger
+const swaggerSpec = swaggerJsdoc(options);
+
+// Serve Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+  
+frontend_path = path.join(__dirname, '..') + '/frontend';
+
+app.use(express.static(path.join(frontend_path, 'static')));
+
+const PORT = process.env.PORT || 3000; 
 
 // Create an instance of Express application
 var app = express();
