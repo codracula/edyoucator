@@ -38,3 +38,31 @@ p {
 li {
     color:rgb(155, 165, 175);
 }
+
+#table-container {
+    width: 80%;
+    margin: auto 35%;
+    align-self: center;
+}
+
+#table-container #key{
+    font-size: 25px;
+    color: rgb(219, 245, 245);
+    width: 85px;
+}
+
+#table-container td{
+    font-size: 25px;
+    color: rgb(217, 217, 217);
+}
+
+#welcome-user {
+    align-self: center;
+    font-size: 35px;
+    color: cadetblue;
+
+}
+
+#takequiz {
+    align-self: center;
+}

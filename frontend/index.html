@@ -6,6 +6,9 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>edYoucator</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="user.js"></script>
+    <script src="quiz.js"></script>
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
@@ -77,12 +80,8 @@
       crossorigin="anonymous"
     ></script>
     <script>
+      var user;
       $(function () {
-
-        // $("#register").on("click", function (event) {
-        //   event.preventDefault();
-
-        // });
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
           var userID = $('#username').val();
@@ -92,30 +91,52 @@
           $.ajax({
                 method: 'POST',
                 url: 'http://localhost:3000/cred',
-                // data: {userID, password},
+
                 dataType: "json",
                 data: JSON.stringify({
                 userID: $('#username').val(), 
                 password: $('#password').val()
                 }),
                 headers: {'Content-Type': 'application/json', //must be double quoted
-                          'userID': userID
+                          // 'userID': userID
                 },
 
                 // contentType: 'application/json',  //attrib of header
                 success: function(result) {
                   console.log("log in success");
+                  // fetchUserInfo(userId);
                 },
                 error: function(jqXHR) {
                     console.error('Error: ', jqXHR.responseText);
                     console.log("error from authentication");
                 }
+            }).done(function(result) {
+              user=result.result[0];
+              const done = $('<p id="welcome-user">Welcome!' + user.firstname + '</p><div id="table-container"></div>');
+              const takeAquiz = $('<button id="takequiz"class="btn btn-success">Start the Quiz</button>')
+              // console.log(result);
+              $(".mainarea").empty();
+              $(".mainarea").append(done);
+              $(".mainarea").append(takeAquiz);
+              // const name = result.result[0][0];
+              // const password = result.result[0][1];
+              // console.log(result.result[0].email);
+              
+              const ptable = $('<table>').addClass('profile-table');
+              var profileTable = $('#table-container').append(generateProfileTable(ptable,user));
             });
+            
+            function generateProfileTable(table,twoColumnData) {
+              const tbody = $('<tbody>').appendTo(table);
+              $.each(twoColumnData, function (key, value) {
+                const tableRow = $('<tr>').appendTo(tbody);
+                $('<td style="color: rgb(95, 234, 234)">').text(key).appendTo(tableRow);
+                $('<td>').text(value).appendTo(tableRow);
+              });
+              return table;
+            }
+            
 
-          const done = $('<h3>signing in...</h3>')
-          $(".mainarea").empty();
-          $(".mainarea").append(done);
-          console.log("Form submitted!");
         });
         $("#regsubmit").on("submit", "#registrationForm", function(e) {
           e.preventDefault();
@@ -174,7 +195,12 @@
 
         // Fetch and display jokes when the page loads
         // fetchJokes();  //turning off to save quota
+
+        
+
     });
+
+    
     </script>
   </body>
 </html>

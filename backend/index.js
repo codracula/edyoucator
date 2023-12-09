@@ -68,7 +68,7 @@ const PORT = process.env.PORT || 3000;
  */
 // Admins
 // RESTful API Endpoint: GET /admins
-// Retrieve all admins from the database
+// 1 Retrieve all admins from the database
 // URI http://localhost:port/admins
 app.get('/admins', (req, res) => {
     const sqlQuery = 'SELECT * FROM admins';
@@ -111,7 +111,7 @@ app.get('/admins', (req, res) => {
  *       400:
  *         description: Error in SQL statement or query execution.
  */
-// RESTful API Endpoint: GET /admins/:userid
+// 2 RESTful API Endpoint: GET /admins/:userid
 // Retrieve admin status for a specific user
 app.get('/admins/:userid', (req, res) => {
     const userid = req.params.userid;
@@ -124,7 +124,7 @@ app.get('/admins/:userid', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: POST /admins
+// 3 RESTful API Endpoint: POST /admins
 // Adds a new admin to the database
 app.post('/admins', (req, res) => {
     const { userid, admin } = req.body;
@@ -137,7 +137,7 @@ app.post('/admins', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: PUT /admins/:userid
+// 4 RESTful API Endpoint: PUT /admins/:userid
 // Updates an existing admin
 app.put('/admins/:userid', (req, res) => {
     const userid = req.params.userid;
@@ -151,7 +151,7 @@ app.put('/admins/:userid', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: DELETE /admins/:userid
+// 5 RESTful API Endpoint: DELETE /admins/:userid
 // Deletes an existing admin
 app.delete('/admins/:userid', (req, res) => {
     const userid = req.params.userid;
@@ -198,7 +198,7 @@ app.delete('/admins/:userid', (req, res) => {
  *         description: Error in SQL query.
  */
 // Authentication
-// RESTful API Endpoint: GET /authentication/:userID
+// 6 RESTful API Endpoint: GET /authentication/:userID
 // Retrieve a user's authentication details
 app.get('/authentication/:userID', (req, res) => {
     const userID = req.params.userID;
@@ -244,7 +244,7 @@ app.get('/authentication/:userID', (req, res) => {
  *         description: Error in SQL query.
  */
 // Classrooms
-// RESTful API Endpoint: GET /classrooms
+// 7 RESTful API Endpoint: GET /classrooms
 // Retrieve all classrooms
 app.get('/classrooms', (req, res) => {
     const sqlQuery = 'SELECT * FROM classrooms';
@@ -289,7 +289,7 @@ app.get('/classrooms', (req, res) => {
  *       400:
  *         description: Error in SQL statement.
  */
-// RESTful API Endpoint: POST /classrooms
+// 8 RESTful API Endpoint: POST /classrooms
 // Create a new classroom
 app.post('/classrooms', (req, res) => {
     const { moderatorid, quizid, quiztaker } = req.body;
@@ -338,7 +338,7 @@ app.post('/classrooms', (req, res) => {
  *       400:
  *         description: Error in SQL query.
  */
-// RESTful API Endpoint: PUT /classrooms/:id
+// 9 RESTful API Endpoint: PUT /classrooms/:id
 // Update an existing classroom
 app.put('/classrooms/:id', (req, res) => {
     const id = req.params.id;
@@ -372,7 +372,7 @@ app.put('/classrooms/:id', (req, res) => {
  *       400:
  *         description: Error in SQL query.
  */
-// RESTful API Endpoint: DELETE /classrooms/:id
+// 10 RESTful API Endpoint: DELETE /classrooms/:id
 // Delete a classroom
 app.delete('/classrooms/:id', (req, res) => {
     const id = req.params.id;
@@ -416,7 +416,7 @@ app.delete('/classrooms/:id', (req, res) => {
  *         description: Error in SQL query.
  */
 // QuizID
-// RESTful API Endpoint: GET /quizid
+// 11 RESTful API Endpoint: GET /quizid
 // Retrieve all quizzes
 app.get('/quizid', (req, res) => {
     const sqlQuery = 'SELECT * FROM quizid';
@@ -457,7 +457,7 @@ app.get('/quizid', (req, res) => {
  *       400:
  *         description: Error in SQL statement.
  */
-// RESTful API Endpoint: POST /quizid
+// 12 RESTful API Endpoint: POST /quizid
 // Create a new quiz
 app.post('/quizid', (req, res) => {
     const { moderator, quizid, quizname } = req.body;
@@ -503,7 +503,7 @@ app.post('/quizid', (req, res) => {
  *       400:
  *         description: Error in SQL query or update operation.
  */
-// RESTful API Endpoint: PUT /quizid/:id
+// 13 RESTful API Endpoint: PUT /quizid/:id
 // Update an existing quiz
 app.put('/quizid/:id', (req, res) => {
     const id = req.params.id;
@@ -537,7 +537,7 @@ app.put('/quizid/:id', (req, res) => {
  *       400:
  *         description: Error in SQL query or delete operation.
  */
-// RESTful API Endpoint: DELETE /quizid/:id
+// 14 RESTful API Endpoint: DELETE /quizid/:id
 // Delete a quiz
 app.delete('/quizid/:id', (req, res) => {
     const id = req.params.id;
@@ -592,7 +592,7 @@ app.delete('/quizid/:id', (req, res) => {
  *         description: Error in SQL query.
  */
 // Quizzes
-// RESTful API Endpoint: GET /quizzes
+// 15 RESTful API Endpoint: GET /quizzes
 // Retrieve all quizzes
 app.get('/quizzes', (req, res) => {
     const sqlQuery = 'SELECT * FROM quizzes';
@@ -645,7 +645,7 @@ app.get('/quizzes', (req, res) => {
  *       400:
  *         description: Error in SQL statement.
  */
-// RESTful API Endpoint: POST /quizzes
+// 16 RESTful API Endpoint: POST /quizzes
 // Create a new quiz
 app.post('/quizzes', (req, res) => {
     const { quizid, question, a, b, c, d, answer } = req.body;
@@ -708,7 +708,7 @@ app.post('/quizzes', (req, res) => {
  *       404:
  *         description: No quiz found with the given question number.
  */
-// RESTful API Endpoint: PUT /quizzes/:questionsnumber
+// 17 RESTful API Endpoint: PUT /quizzes/:questionsnumber
 // Update an existing quiz
 app.put('/quizzes/:questionnumber', (req, res) => {
     const questionnumber = req.params.questionnumber;
@@ -747,7 +747,7 @@ app.put('/quizzes/:questionnumber', (req, res) => {
  *       404:
  *         description: No quiz found with the given question number.
  */
-// RESTful API Endpoint: DELETE /quizzes/:questionnumber
+// 18 RESTful API Endpoint: DELETE /quizzes/:questionnumber
 // Delete a quiz based on question number
 app.delete('/quizzes/:questionnumber', (req, res) => {
     const questionnumber = req.params.questionnumber;
@@ -813,11 +813,12 @@ app.delete('/quizzes/:questionnumber', (req, res) => {
  *         description: Error in SQL query.
  */
 // Users
-// RESTful API Endpoint: GET /users
+// 19 RESTful API Endpoint: GET /users
 // Retrieve all users
 app.get('/users', (req, res) => {
-    const sqlQuery = 'SELECT * FROM users';
-    dbConnection.query(sqlQuery, (error, result) => {
+    const userID = parseInt(req.body.userID);
+    const sqlQuery = 'SELECT * FROM users WHERE userID =?';
+    dbConnection.query(sqlQuery, userID, (error, result) => {
         if (error) {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
@@ -874,7 +875,7 @@ app.get('/users', (req, res) => {
  *       400:
  *         description: Error in SQL statement.
  */
-// RESTful API Endpoint: POST /users
+// 20 RESTful API Endpoint: POST /users
 // Create a new user
 app.post('/users', (req, res) => {
     const { userid, username, firstname, lastname, dateofbirth, email, city, state, country } = req.body;
@@ -887,16 +888,18 @@ app.post('/users', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: POST /users
+// 21 RESTful API Endpoint: POST /users
 // Checking password for the exiting user for authentiation
 app.post('/cred', (req, res) => {
     // const {userID, password} = req.body;
     const userID = parseInt(req.body.userID);
     const password = req.body.password;
     console.log(userID, password);
+    // SELECT * FROM authentication JOIN users ON users.userID = authentication.userID JOIN quizID ON users.userID = quizID.moderatorID WHERE userID =?  AND password = ?";
+    const query = "SELECT * FROM authentication JOIN users On authentication.userid = users.userid WHERE authentication.userID =?  AND authentication.password = ?";
+    // const userInfo = "SELECT * FROM users WHERE userID =?";
+    var outputInfo;
 
-    const query = 'SELECT * FROM authentication WHERE userID =?  AND password = ?';
-    // const sqlQuery = "SELECT name FROM menu where price BETWEEN'" + low + "' and  '" + high + "';";
     dbConnection.query(query, [userID, password], (error, result) => {
 
         if (error) {
@@ -904,11 +907,17 @@ app.post('/cred', (req, res) => {
             return res.status(500).json({ error: 'Error in SQL statement. Please check.' });
         }
         if (result) {
-            res.status(200).json({success: true, message: 'credential is valid'});
+
+            res.status(200).json({success: true, 
+                message: 'credential is valid',
+                result: result
+                
+            });
         }else {
             res.status(200).json({sucess: false, message: 'Invalid credential'});
         }
     });
+
 });
 
 /**
@@ -964,7 +973,7 @@ app.post('/cred', (req, res) => {
  *       400:
  *         description: Error in SQL query or update operation.
  */
-// RESTful API Endpoint: PUT /users/:id
+// 22 RESTful API Endpoint: PUT /users/:id
 // Update an existing user
 app.put('/users/:id', (req, res) => {
     const id = req.params.id;
@@ -1000,7 +1009,7 @@ app.put('/users/:id', (req, res) => {
  *       404:
  *         description: User not found.
  */
-// RESTful API Endpoint: DELETE /users/:id
+// 23 RESTful API Endpoint: DELETE /users/:id
 // Delete a user
 app.delete('/users/:id', (req, res) => {
     const id = req.params.id;
@@ -1014,7 +1023,7 @@ app.delete('/users/:id', (req, res) => {
 });
 
 // User Responses
-// RESTful API Endpoint: GET /user_responses
+// 24 RESTful API Endpoint: GET /user_responses
 // Retrieve all user responses
 app.get('/user_responses', (req, res) => {
     const sqlQuery = 'SELECT * FROM user_responses';
@@ -1026,7 +1035,7 @@ app.get('/user_responses', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: POST /user_responses
+// 25 RESTful API Endpoint: POST /user_responses
 // Create a new user response
 app.post('/user_responses', (req, res) => {
     const { user_id, question_id, selected_option } = req.body;
@@ -1039,7 +1048,7 @@ app.post('/user_responses', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: PUT /user_responses/:id
+// 26 RESTful API Endpoint: PUT /user_responses/:id
 // Update an existing user response
 app.put('/user_responses/:id', (req, res) => {
     const id = req.params.id;
@@ -1053,7 +1062,7 @@ app.put('/user_responses/:id', (req, res) => {
     });
 });
 
-// RESTful API Endpoint: DELETE /user_responses/:id
+// 27 RESTful API Endpoint: DELETE /user_responses/:id
 // Delete a user response
 app.delete('/user_responses/:id', (req, res) => {
     const id = req.params.id;
@@ -1095,7 +1104,7 @@ app.delete('/user_responses/:id', (req, res) => {
  *       400:
  *         description: Error in SQL query.
  */
-// RESTful API Endpoint: GET /leaderboard
+// 28 RESTful API Endpoint: GET /leaderboard
 // Retrieve leaderboard data
 app.get('/leaderboard', (req, res) => {
     const sqlQuery = 'SELECT * FROM leaderboard ORDER by score DESC';
