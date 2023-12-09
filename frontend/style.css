@@ -58,11 +58,27 @@ li {
 
 #welcome-user {
     align-self: center;
+    margin: auto 35%;
     font-size: 35px;
     color: cadetblue;
 
 }
 
+#quizdiv {
+    align-self: flex-start;
+    flex-wrap: wrap;
+    margin: 15px 25px;
+    margin: auto 35%;
+}
+
 #takequiz {
-    align-self: center;
+    flex-wrap: wrap;
+    align-self: flex-start;
+    margin: 15px 15px;
+}
+
+#makequiz {
+    flex-wrap: wrap;
+    align-self: flex-start;
+    margin: 15px 15px;
 }

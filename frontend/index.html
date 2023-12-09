@@ -113,11 +113,18 @@
             }).done(function(result) {
               user=result.result[0];
               const done = $('<p id="welcome-user">Welcome!' + user.firstname + '</p><div id="table-container"></div>');
-              const takeAquiz = $('<button id="takequiz"class="btn btn-success">Start the Quiz</button>')
+              const quizDiv = $('<div id="quizdiv"></div>');
+              const takeAquiz = $('<button id="takequiz"class="btn btn-success">Take a Quiz</button>');
+              const makeAquiz = $('<button id="makequiz"class="btn btn-success">Make a Quiz</button>');
+              
+
               // console.log(result);
               $(".mainarea").empty();
               $(".mainarea").append(done);
-              $(".mainarea").append(takeAquiz);
+              $(".mainarea").append(quizDiv);
+              $("#quizdiv").append(makeAquiz);
+              $("#quizdiv").append(takeAquiz);
+              // $(".mainarea").append(takeAquiz);
               // const name = result.result[0][0];
               // const password = result.result[0][1];
               // console.log(result.result[0].email);
