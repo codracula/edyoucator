@@ -80,22 +80,33 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      var user;
+      var user ={
+        userID: "",
+        password: "",
+        username: "",
+        firstname: "",
+        lastname: "",
+        dateofbirth: "",
+        email: "",
+        city: "",
+        state: "",
+        country: ""
+      };
       $(function () {
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
-          var userID = $('#username').val();
-          var password = $('#password').val();
-         
-          console.log("user/password: " + userID, password);
+          user.userID = $('#username').val();
+          user.password = $('#password').val();
+          
+          
           $.ajax({
                 method: 'POST',
                 url: 'http://localhost:3000/cred',
 
                 dataType: "json",
                 data: JSON.stringify({
-                userID: $('#username').val(), 
-                password: $('#password').val()
+                userID: user.userID, 
+                password: user.password
                 }),
                 headers: {'Content-Type': 'application/json', //must be double quoted
                           // 'userID': userID
@@ -112,17 +123,19 @@
                 }
             }).done(function(result) {
               user=result.result[0];
+              console.log('user:');
+              console.log(user);
               const done = $('<p id="welcome-user">Welcome!' + user.firstname + '</p><div id="table-container"></div>');
               const quizDiv = $('<div id="quizdiv"></div>');
               const takeAquiz = $('<button id="takequiz"class="btn btn-success">Take a Quiz</button>');
-              const makeAquiz = $('<button id="makequiz"class="btn btn-success">Make a Quiz</button>');
+              const myquiz = $('<button id="myquiz"class="btn btn-success">My Quiz</button>');
               
 
               // console.log(result);
               $(".mainarea").empty();
               $(".mainarea").append(done);
               $(".mainarea").append(quizDiv);
-              $("#quizdiv").append(makeAquiz);
+              $("#quizdiv").append(myquiz);
               $("#quizdiv").append(takeAquiz);
               // $(".mainarea").append(takeAquiz);
               // const name = result.result[0][0];
@@ -142,7 +155,34 @@
               });
               return table;
             }
-            
+        });
+
+        $("#myquiz").click(async function(e) {
+          e.preventDefault();
+          $(".mainarea").empty();
+          // $.ajax({
+          //       method: 'GET',
+          //       url: 'http://localhost:3000/quizid',
+          //       dataType: "json",
+          //       data: JSON.stringify({
+          //       userID: user.userID,
+          //       }),
+          //       headers: {'Content-Type': 'application/json', //must be double quoted
+          //       },
+          //       // contentType: 'application/json',  //attrib of header
+          //       success: function(result) {
+          //         console.log("quizid success");
+          //         // fetchUserInfo(userId);
+          //       },
+          //       error: function(jqXHR) {
+          //           console.error('Error: ', jqXHR.responseText);
+          //           console.log("error retrieving my quiz info");
+          //       }
+          //   }).done(function(result) {
+          //     user.quizmade=result.result[0];
+          //     console.log(user.quizmade);
+              
+          //   });
 
         });
         $("#regsubmit").on("submit", "#registrationForm", function(e) {

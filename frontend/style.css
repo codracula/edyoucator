@@ -77,6 +77,12 @@ li {
     margin: 15px 15px;
 }
 
+#myquiz {
+    flex-wrap: wrap;
+    align-self: flex-start;
+    margin: 15px 15px;
+}
+
 #makequiz {
     flex-wrap: wrap;
     align-self: flex-start;

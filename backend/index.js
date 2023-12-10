@@ -419,12 +419,21 @@ app.delete('/classrooms/:id', (req, res) => {
 // 11 RESTful API Endpoint: GET /quizid
 // Retrieve all quizzes
 app.get('/quizid', (req, res) => {
-    const sqlQuery = 'SELECT * FROM quizid';
-    dbConnection.query(sqlQuery, (error, result) => {
+    const moderator = parseInt(req.body.userID);
+    const sqlQuery = 'SELECT * FROM quizid WHERE quizid.moderator = ?';
+    dbConnection.query(sqlQuery, [moderator], (error, result) => {
         if (error) {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
-        return res.status(200).json(result);
+        if (result) {
+            res.status(200).json({success: true, 
+                message: 'sending quiz name over..',
+                result: result
+                
+            });
+        }else {
+            return res.status(200).json({error: 'No quiz data available.'});
+        }
     });
 });
 
