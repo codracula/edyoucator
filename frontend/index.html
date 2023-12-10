@@ -81,7 +81,7 @@
     ></script>
     <script>
       var user ={
-        userID: "",
+        userid: "",
         password: "",
         username: "",
         firstname: "",
@@ -95,17 +95,17 @@
       $(function () {
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
-          user.userID = $('#username').val();
+          user.userid = parseInt($('#username').val());
           user.password = $('#password').val();
           
-          
+          // console.log(user);
           $.ajax({
                 method: 'POST',
                 url: 'http://localhost:3000/cred',
 
                 dataType: "json",
                 data: JSON.stringify({
-                userID: user.userID, 
+                userid: user.userid, 
                 password: user.password
                 }),
                 headers: {'Content-Type': 'application/json', //must be double quoted
@@ -123,7 +123,6 @@
                 }
             }).done(function(result) {
               user=result.result[0];
-              console.log('user:');
               console.log(user);
               const done = $('<p id="welcome-user">Welcome!' + user.firstname + '</p><div id="table-container"></div>');
               const quizDiv = $('<div id="quizdiv"></div>');
@@ -157,34 +156,34 @@
             }
         });
 
-        $("#myquiz").click(async function(e) {
+        $(document).on("click", "#myquiz", function(e) {
+          console.log("userid: " + user.userid);
+          console.log(user.userid);
           e.preventDefault();
-          $(".mainarea").empty();
-          // $.ajax({
-          //       method: 'GET',
-          //       url: 'http://localhost:3000/quizid',
-          //       dataType: "json",
-          //       data: JSON.stringify({
-          //       userID: user.userID,
-          //       }),
-          //       headers: {'Content-Type': 'application/json', //must be double quoted
-          //       },
-          //       // contentType: 'application/json',  //attrib of header
-          //       success: function(result) {
-          //         console.log("quizid success");
-          //         // fetchUserInfo(userId);
-          //       },
-          //       error: function(jqXHR) {
-          //           console.error('Error: ', jqXHR.responseText);
-          //           console.log("error retrieving my quiz info");
-          //       }
-          //   }).done(function(result) {
-          //     user.quizmade=result.result[0];
-          //     console.log(user.quizmade);
-              
-          //   });
-
+          $.ajax({
+                method: 'GET',
+                url: 'http://localhost:3000/quizid',
+                dataType: "json",
+                data: JSON.stringify({
+                  userid: user.userid,
+                }),
+                headers: {'Content-Type': 'application/json' //must be double quoted
+                },
+                // contentType: 'application/json',  //attrib of header
+                success: function(result) {
+                  console.log("sucessfully retriving myquiz info");
+                },
+                error: function(jqXHR) {
+                    console.error('Error: ', jqXHR.responseText);
+                    console.log("error retrieving my quiz info");
+                }
+            }).done(function(result) {
+              user.quizmade=result.result[0];
+              console.log(user.quizmade);
+              $(".mainarea").empty();
+            });
         });
+
         $("#regsubmit").on("submit", "#registrationForm", function(e) {
           e.preventDefault();
           $(".mainarea").empty();
