@@ -97,6 +97,13 @@
           e.preventDefault();
           user.userID = $('#username').val();
           user.password = $('#password').val();
+
+          // Check if either the username or password is empty
+          if (!username || !password) {
+            // display alert
+            alert('Please enter both user name and password')
+            return;
+          }
           
           
           $.ajax({
