@@ -419,9 +419,10 @@ app.delete('/classrooms/:id', (req, res) => {
 // 11 RESTful API Endpoint: GET /quizid
 // Retrieve all quizzes
 app.get('/quizid', (req, res) => {
-    const moderator = parseInt(req.body.userID);
+    const userid = parseInt(req.body.userid);
+    console.log(userid);
     const sqlQuery = 'SELECT * FROM quizid WHERE quizid.moderator = ?';
-    dbConnection.query(sqlQuery, [moderator], (error, result) => {
+    dbConnection.query(sqlQuery, [userid], (error, result) => {
         if (error) {
             return res.status(400).json({ error: 'Error in SQL query. Please check.' });
         }
@@ -901,7 +902,7 @@ app.post('/users', (req, res) => {
 // Checking password for the exiting user for authentiation
 app.post('/cred', (req, res) => {
     // const {userID, password} = req.body;
-    const userID = parseInt(req.body.userID);
+    const userID = parseInt(req.body.userid);
     const password = req.body.password;
     console.log(userID, password);
     // SELECT * FROM authentication JOIN users ON users.userID = authentication.userID JOIN quizID ON users.userID = quizID.moderatorID WHERE userID =?  AND password = ?";
