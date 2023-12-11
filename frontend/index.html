@@ -5,9 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>edYoucator</title>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --> <!--duplicated-->
-    <script src="user.js"></script>
-    <script src="quiz.js"></script>
 
     <link
       rel="stylesheet"
@@ -71,6 +68,12 @@
       <div id="jokes-container"></div>
     </div>
 
+    <div class="quiz-selection">
+      <h2>Select a Quiz Category</h2>
+      <button id="chemistryQuiz" class="btn btn-primary">Chemistry Quiz</button>
+      <button id="algebraQuiz" class="btn btn-primary">Algebra Quiz</button>
+    </div>
+
     <div class="footer"></div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -79,9 +82,10 @@
       integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
       crossorigin="anonymous"
     ></script>
+
     <script>
       var user ={
-        userid: "",
+        userID: "",
         password: "",
         username: "",
         firstname: "",
@@ -92,10 +96,11 @@
         state: "",
         country: ""
       };
+
       $(function () {
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
-          user.userid = parseInt($('#username').val());
+          user.userID = $('#username').val();
           user.password = $('#password').val();
 
           // Check if either the username or password is empty
@@ -109,14 +114,14 @@
             alert('Please enter your password');
           }
           
-          // console.log(user);
+          
           $.ajax({
                 method: 'POST',
                 url: 'http://localhost:3000/cred',
 
                 dataType: "json",
                 data: JSON.stringify({
-                userid: user.userid, 
+                userID: user.userID, 
                 password: user.password
                 }),
                 headers: {'Content-Type': 'application/json', //must be double quoted
@@ -134,6 +139,7 @@
                 }
             }).done(function(result) {
               user=result.result[0];
+              console.log('user:');
               console.log(user);
               const done = $('<p id="welcome-user">Welcome!' + user.firstname + '</p><div id="table-container"></div>');
               const quizDiv = $('<div id="quizdiv"></div>');
@@ -167,60 +173,83 @@
             }
         });
 
-        $(document).on("click", "#myquiz", function(e) {
-          console.log("userid: " + user.userid);
-          console.log(user.userid);
+        $("#myquiz").click(async function(e) {
           e.preventDefault();
-          $.ajax({
-                method: 'GET',
-                url: 'http://localhost:3000/quizid',
-                dataType: "json",
-                data: JSON.stringify({
-                  userid: user.userid,
-                }),
-                headers: {'Content-Type': 'application/json' //must be double quoted
-                },
-                // contentType: 'application/json',  //attrib of header
-                success: function(result) {
-                  console.log("sucessfully retriving myquiz info");
-                },
-                error: function(jqXHR) {
-                    console.error('Error: ', jqXHR.responseText);
-                    console.log("error retrieving my quiz info");
-                }
-            }).done(function(result) {
-              user.quizmade=result.result[0];
-              console.log(user.quizmade);
-              $(".mainarea").empty();
-            });
-        });
+          $(".mainarea").empty();
+          // $.ajax({
+          //       method: 'GET',
+          //       url: 'http://localhost:3000/quizid',
+          //       dataType: "json",
+          //       data: JSON.stringify({
+          //       userID: user.userID,
+          //       }),
+          //       headers: {'Content-Type': 'application/json', //must be double quoted
+          //       },
+          //       // contentType: 'application/json',  //attrib of header
+          //       success: function(result) {
+          //         console.log("quizid success");
+          //         // fetchUserInfo(userId);
+          //       },
+          //       error: function(jqXHR) {
+          //           console.error('Error: ', jqXHR.responseText);
+          //           console.log("error retrieving my quiz info");
+          //       }
+          //   }).done(function(result) {
+          //     user.quizmade=result.result[0];
+          //     console.log(user.quizmade);
+              
+          //   });
 
+        });
         $("#regsubmit").on("submit", "#registrationForm", function(e) {
           e.preventDefault();
-          $(".mainarea").empty();
-          const done = $('<h3>Form submitted</h3>')
-          $(".mainarea").append(done);
-          console.log("Form submitted!");
+          var userData = {
+            username: $('#username').val(),
+            firstname: $('#firstname').val(),
+            lastname: $('#lastname').val(),
+            dateofbirth: $('#dateofbirth').val(),
+            email: $('#email').val(),
+            city: $('#city').val(),
+            state: $('#state').val(),
+            country: $('#country').val()
+          };
+
+          // AJAX
+          $.ajax({
+            method: 'POST',
+            url: 'http://localhost:3000/users',
+            data: userData,
+            success: function(response) {
+              $(".mainarea").empty();
+              $(".mainarea").append('<h3>Registration Successful</h3>');
+            },
+            error: function(error) {
+              alert('Registration failed: ' + error.responseText);
+            }
+          });
         });
+
         $("#register").on("click", function (event) {
           event.preventDefault();
-          console.log("test");
           $(".mainarea").empty();
           var form = $(
-            '<form id="registationForm">\
+            '<form id="registrationForm">\
             <h4>New User Registration Form:</h4>\
-            <input type="text" id="username" placeholder="username" name="username" /><br /><br />\
-            <input type="text" id="password" placeholder="password" name="password" />\
+            <input type="text" id="username" placeholder="Username" name="username" /><br /><br />\
+            <input type="password" id="password" placeholder="Password" name="password" /><br /><br />\
             <h4>Full Name</h4>\
-            <input type="firstname" id="firstname" placeholder="first" name="firstname" /><br /><br />\
-            <input type="lastname" id="lastname" placeholder="last" name="lastname" /><br /><br />\
-            <input type="text" id="email" placeholder="email" name="email" /><br /><br />\
+            <input type="text" id="firstname" placeholder="First Name" name="firstname" /><br /><br />\
+            <input type="text" id="lastname" placeholder="Last Name" name="lastname" /><br /><br />\
+            <input type="date" id="dateofbirth" placeholder="Date of Birth" name="dateofbirth" /><br /><br />\
+            <input type="email" id="email" placeholder="Email" name="email" /><br /><br />\
+            <input type="text" id="city" placeholder="City" name="city" /><br /><br />\
+            <input type="text" id="state" placeholder="State" name="state" /><br /><br />\
+            <input type="text" id="country" placeholder="Country" name="country" /><br /><br />\
             <button id="regsubmit" type="submit" class="btn btn-success">Submit</button>\
             </form>'
           );
           $(".mainarea").append(form);
         });
-
       });
 
       $(document).ready(function() {
@@ -252,12 +281,16 @@
 
         // Fetch and display jokes when the page loads
         // fetchJokes();  //turning off to save quota
-
-        
-
     });
-
+    </script>
     
+    <script>
+      $("#chemistryQuiz").click(function() {
+        window.location.href = 'chemistry_quiz.html';
+      });
+      $("#algebraQuiz").click(function() {
+        window.location.href = 'algebra_quiz.html';
+      });
     </script>
   </body>
 </html>

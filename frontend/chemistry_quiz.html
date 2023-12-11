@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>edYoucator - Chemistry Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="mainarea">
+            <h4>Welcome to <span class="edu">edYOUcator - Chemistry Quiz</span></h4>
+            <div id="quiz-container"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        function loadChemistryQuiz() {
+            $.ajax({
+                url: 'http://localhost:3000/quizzes/chemistry',
+                type: 'GET',
+                success: function(quizzes) {
+                    displayQuiz(quizzes);
+                },
+                error: function(error) {
+                    console.log('Error fetching quizzes:', error);
+                }
+            });
+        }
+
+        function displayQuiz(quizzes) {
+            quizzes.forEach((quiz, index) => {
+                var quizHtml = `<div class='quiz-item'>
+                                    <p>${quiz.question}</p>
+                                    <button>${quiz.a}</button>
+                                    <button>${quiz.b}</button>
+                                    <button>${quiz.c}</button>
+                                    <button>${quiz.d}</button>
+                                </div>`;
+                $('#quiz-container').append(quizHtml);
+            });
+        }
+
+        $(document).ready(function() {
+            loadChemistryQuiz();
+        });
+
+        $('#quiz-container').on('click', 'button', function() {
+            var userAnswer = $(this).text();
+            var questionId = $(this).closest('.quiz-item').data('question-id');
+
+            $.ajax({
+                url: `http://localhost:3000/quizzes/check-answer`,
+                type: 'POST',
+                data: JSON.stringify({ questionId: questionId, userAnswer: userAnswer }),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response.correct) {
+                        alert('Correct!');
+                    } else {
+                        alert('Incorrect!');
+                    }
+                },
+                error: function(error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

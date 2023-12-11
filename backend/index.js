@@ -1126,6 +1126,31 @@ app.get('/leaderboard', (req, res) => {
     });
 });
 
+app.get('/quizzes/chemistry', (req, res) => {
+    const sqlQuery = 'SELECT questionnumber, question, a, b, c, d FROM quizzes WHERE quizid = 2000';
+    dbConnection.query(sqlQuery, (error, result) => {
+        if (error) {
+            return res.status(400).json({ error: 'Error in SQL query. Please check.' });
+        }
+        return res.status(200).json(result);
+    });
+});
+
+
+app.post('/quizzes/check-answer', (req, res) => {
+    const { questionId, userAnswer } = req.body;
+    const sqlQuery = 'SELECT answer FROM quizzes WHERE questionnumber = ?';
+
+    dbConnection.query(sqlQuery, [questionId], (error, result) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error in SQL query. Please check.' });
+        }
+
+        const isCorrect = result.length > 0 && userAnswer === result[0].answer;
+        return res.status(200).json({ correct: isCorrect });
+    });
+});
+
 // Server listening on port 3000
 app.listen(3000, () => {
     console.log("Express server is running and listening.");
