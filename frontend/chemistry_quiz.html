@@ -19,57 +19,63 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        var currentQuestionIndex = 0;
+        var quizzes = [];
+        var userAnswers = [];
+    
         function loadChemistryQuiz() {
             $.ajax({
                 url: 'http://localhost:3000/quizzes/chemistry',
                 type: 'GET',
-                success: function(quizzes) {
-                    displayQuiz(quizzes);
+                success: function(response) {
+                    quizzes = response;
+                    displayCurrentQuestion();
                 },
                 error: function(error) {
                     console.log('Error fetching quizzes:', error);
                 }
             });
         }
-
-        function displayQuiz(quizzes) {
-            quizzes.forEach((quiz, index) => {
-                var quizHtml = `<div class='quiz-item'>
-                                    <p>${quiz.question}</p>
-                                    <button>${quiz.a}</button>
-                                    <button>${quiz.b}</button>
-                                    <button>${quiz.c}</button>
-                                    <button>${quiz.d}</button>
-                                </div>`;
-                $('#quiz-container').append(quizHtml);
-            });
+    
+        function displayCurrentQuestion() {
+            var quiz = quizzes[currentQuestionIndex];
+            var quizHtml = `<div class='quiz-item' data-question-id='${quiz.questionnumber}'>
+                                <p>${quiz.question}</p>
+                                <button class='answer-btn'>${quiz.a}</button>
+                                <button class='answer-btn'>${quiz.b}</button>
+                                <button class='answer-btn'>${quiz.c}</button>
+                                <button class='answer-btn'>${quiz.d}</button>
+                            </div>`;
+            $('#quiz-container').html(quizHtml);
         }
-
+    
+        function showResult() {
+            var correctCount = 0;
+            userAnswers.forEach((answer, index) => {
+                if(answer === quizzes[index].answer) correctCount++;
+            });
+    
+            alert("Your score is: " + correctCount + "/" + quizzes.length);
+        }
+    
         $(document).ready(function() {
             loadChemistryQuiz();
         });
-
-        $('#quiz-container').on('click', 'button', function() {
+    
+        $('#quiz-container').on('click', '.answer-btn', function() {
             var userAnswer = $(this).text();
-            var questionId = $(this).closest('.quiz-item').data('question-id');
-
-            $.ajax({
-                url: `http://localhost:3000/quizzes/check-answer`,
-                type: 'POST',
-                data: JSON.stringify({ questionId: questionId, userAnswer: userAnswer }),
-                contentType: 'application/json',
-                success: function(response) {
-                    if (response.correct) {
-                        alert('Correct!');
-                    } else {
-                        alert('Incorrect!');
-                    }
-                },
-                error: function(error) {
-                    console.log('Error:', error);
-                }
-            });
+            userAnswers[currentQuestionIndex] = userAnswer;
+    
+            if (currentQuestionIndex < quizzes.length - 1) {
+                currentQuestionIndex++;
+                displayCurrentQuestion();
+            } else {
+                showResult();
+            }
         });
+    
+        // Optionally, add navigation for previous question and result button
     </script>
+    
 </body>
 </html>

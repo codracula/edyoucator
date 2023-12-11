@@ -1146,10 +1146,18 @@ app.post('/quizzes/check-answer', (req, res) => {
             return res.status(500).json({ error: 'Error in SQL query. Please check.' });
         }
 
-        const isCorrect = result.length > 0 && userAnswer === result[0].answer;
+        if (result.length === 0) {
+            // Handle the case where no matching question is found
+            return res.status(404).json({ error: 'Question not found.' });
+        }
+
+        const correctAnswer = result[0].answer;
+        const isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
         return res.status(200).json({ correct: isCorrect });
     });
 });
+
+
 
 // Server listening on port 3000
 app.listen(3000, () => {
