@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
     <title>edYoucator</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --> <!--duplicated-->
     <script src="user.js"></script>
     <script src="quiz.js"></script>
 
@@ -99,10 +99,14 @@
           user.password = $('#password').val();
 
           // Check if either the username or password is empty
-          if (!username || !password) {
+          if (!user.userID && !user.password) {
             // display alert
             alert('Please enter both user name and password')
             return;
+          } else if (!user.userID) {
+            alert('Please enter your username');
+          } else if (!user.password) {
+            alert('Please enter your password');
           }
           
           
