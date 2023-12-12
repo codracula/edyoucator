@@ -68,11 +68,11 @@
       <div id="jokes-container"></div>
     </div>
 
-    <div class="quiz-selection">
+    <!-- <div class="quiz-selection">
       <h2>Select a Quiz Category</h2>
       <button id="chemistryQuiz" class="btn btn-primary">Chemistry Quiz</button>
       <button id="algebraQuiz" class="btn btn-primary">Algebra Quiz</button>
-    </div>
+    </div> -->
 
     <div class="footer"></div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -100,15 +100,15 @@
       $(function () {
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
-          user.userID = $('#username').val();
+          user.userid = $('#username').val();
           user.password = $('#password').val();
 
           // Check if either the username or password is empty
-          if (!user.userID && !user.password) {
+          if (!user.userid && !user.password) {
             // display alert
             alert('Please enter both user name and password')
             return;
-          } else if (!user.userID) {
+          } else if (!user.userid) {
             alert('Please enter your username');
           } else if (!user.password) {
             alert('Please enter your password');
@@ -121,7 +121,7 @@
 
                 dataType: "json",
                 data: JSON.stringify({
-                userID: user.userID, 
+                userid: user.userid, 
                 password: user.password
                 }),
                 headers: {'Content-Type': 'application/json', //must be double quoted
@@ -242,6 +242,18 @@
         //     }
         //   }
         // }
+        // takequiz
+        $(document).on("click", "#takequiz", function(e) {
+          $(".mainarea").empty();
+          var takeaquiz = $('<div class="quiz-selection">\
+            <h2>Select a Quiz Category</h2>\
+            <button id="chemistryQuiz" class="btn btn-primary">Chemistry Quiz</button>\
+            <button id="algebraQuiz" class="btn btn-primary">Algebra Quiz</button>\
+            </div>');
+          $(".mainarea").append(takeaquiz)
+          
+          
+        });
 
         $("#regsubmit").on("submit", "#registrationForm", function(e) {
           e.preventDefault();
@@ -327,10 +339,12 @@
     </script>
     
     <script>
-      $("#chemistryQuiz").click(function() {
+      $(document).on("click", "#chemistryQuiz", function() {
+      // $("#chemistryQuiz").click(function() {
         window.location.href = 'chemistry_quiz.html';
       });
-      $("#algebraQuiz").click(function() {
+      $(document).on("click", "#algebraQuiz", function() {
+      // $("#algebraQuiz").click(function() {
         window.location.href = 'algebra_quiz.html';
       });
     </script>

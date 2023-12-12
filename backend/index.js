@@ -904,16 +904,16 @@ app.post('/users', (req, res) => {
 // 21 RESTful API Endpoint: POST /users
 // Checking password for the exiting user for authentiation
 app.post('/cred', (req, res) => {
-    // const {userID, password} = req.body;
-    const userID = parseInt(req.body.userid);
+    // const {userid, password} = req.body;
+    const userid = parseInt(req.body.userid);
     const password = req.body.password;
-    console.log(userID, password);
+    console.log(userid, password);
     // SELECT * FROM authentication JOIN users ON users.userID = authentication.userID JOIN quizID ON users.userID = quizID.moderatorID WHERE userID =?  AND password = ?";
-    const query = "SELECT * FROM authentication JOIN users On authentication.userid = users.userid WHERE authentication.userID =?  AND authentication.password = ?";
+    const query = "SELECT * FROM authentication JOIN users On authentication.userid = users.userid WHERE authentication.userid =?  AND authentication.password = ?";
     // const userInfo = "SELECT * FROM users WHERE userID =?";
     var outputInfo;
 
-    dbConnection.query(query, [userID, password], (error, result) => {
+    dbConnection.query(query, [userid, password], (error, result) => {
 
         if (error) {
             // console.error(error.message);
