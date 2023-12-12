@@ -891,11 +891,14 @@ app.get('/users', (req, res) => {
 // 20 RESTful API Endpoint: POST /users
 // Create a new user
 app.post('/users', (req, res) => {
-    const { userid, username, firstname, lastname, dateofbirth, email, city, state, country } = req.body;
-    const sqlInsert = 'INSERT INTO users (userid, username, firstname, lastname, dateofbirth, email, city, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    dbConnection.query(sqlInsert, [userid, username, firstname, lastname, dateofbirth, email, city, state, country], (error, result) => {
+    const { userid, password, username, firstname, lastname, dateofbirth, email, city, state, country  } = req.body;
+    // console.log(req.body);
+    const sqlInsert = 'INSERT INTO users JOIN authentication on users.userid = authentication.userid WHERE users.userid=? AND authentication.password = ? AND users.username=? AND users.firstname=? AND users.lastname=? AND users.dateofbirth=? AND users.email=? AND users.city? AND users.state? AND users.country=?';
+    dbConnection.query(sqlInsert, [userid, password, username, firstname, lastname, dateofbirth, email, city, state, country], (error, result) => {
         if (error) {
+            result: req.body;
             return res.status(400).json({ error: 'Error in SQL statement. Please check.' });
+            
         }
         return res.status(200).json({ message: 'New user created successfully!' });
     });

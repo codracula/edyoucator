@@ -29,7 +29,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
             <div class="form-group">
-              <input id="username" type="text" placeholder="username" class="form-control" />
+              <input id="userid" type="text" placeholder="User ID" class="form-control" />
             </div>
             <div class="form-group">
               <input
@@ -85,7 +85,7 @@
 
     <script>
       var user ={
-        userID: "",
+        userid: "",
         password: "",
         username: "",
         firstname: "",
@@ -100,7 +100,7 @@
       $(function () {
         $("#signin-submit").click(async function(e) {
           e.preventDefault();
-          user.userid = $('#username').val();
+          user.userid = $('#userid').val();
           user.password = $('#password').val();
 
           // Check if either the username or password is empty
@@ -109,7 +109,7 @@
             alert('Please enter both user name and password')
             return;
           } else if (!user.userid) {
-            alert('Please enter your username');
+            alert('Please enter your user ID');
           } else if (!user.password) {
             alert('Please enter your password');
           }
@@ -172,9 +172,9 @@
               return table;
             }
         });
-
+        
         $(document).on("click", "#myquiz", function(e) {
-          console.log("userid: " + user.userid);
+          // console.log("userid: " + user.userid);
           // console.log(user.userid);
           e.preventDefault();
           $.ajax({
@@ -217,14 +217,7 @@
 
                 return subjectdiv;
               }
-              
-              // const subjectdiv = $('<div>').appendTo(table);
-              // $.each(twoColumnData, function (key, value) {
-              //   const tableRow = $('<tr>').appendTo(tbody);
-              //   $('<td style="color: rgb(95, 234, 234)">').text(key).appendTo(tableRow);
-              //   $('<td>').text(value).appendTo(tableRow);
-              // });
-              // return table;
+
             }
         });
         // wip
@@ -255,10 +248,13 @@
           
         });
 
-        $("#regsubmit").on("submit", "#registrationForm", function(e) {
+        $(document).on("click", "#regsubmit", function(e) {
           e.preventDefault();
+          
           var userData = {
-            username: $('#username').val(),
+            userid: $('#newuserid').val(),
+            password: $('#newpassword').val(),
+            username: $('#newnickname').val(),
             firstname: $('#firstname').val(),
             lastname: $('#lastname').val(),
             dateofbirth: $('#dateofbirth').val(),
@@ -267,31 +263,44 @@
             state: $('#state').val(),
             country: $('#country').val()
           };
-
+          console.log("userData:");
+          console.log(userData);
           // AJAX
           $.ajax({
             method: 'POST',
             url: 'http://localhost:3000/users',
-            data: userData,
+            data: JSON.stringify({
+              userid: $('#newuserid').val(),
+              password: $('#newpassword').val(),
+              username: $('#newnickname').val(),
+              firstname: $('#firstname').val(),
+              lastname: $('#lastname').val(),
+              dateofbirth: $('#dateofbirth').val(),
+              email: $('#email').val(),
+              city: $('#city').val(),
+              state: $('#state').val(),
+              country: $('#country').val()
+
+            }),
             success: function(response) {
-              $(".mainarea").empty();
-              $(".mainarea").append('<h3>Registration Successful</h3>');
+              console.log("registration success");
             },
             error: function(error) {
               alert('Registration failed: ' + error.responseText);
             }
           });
         });
-
-        $("#register").on("click", function (event) {
+        
+        $(document).on("click", "#register", function (event) {
           event.preventDefault();
           $(".mainarea").empty();
           var form = $(
             '<form id="registrationForm">\
             <h4>New User Registration Form:</h4>\
-            <input type="text" id="username" placeholder="Username" name="username" /><br /><br />\
-            <input type="password" id="password" placeholder="Password" name="password" /><br /><br />\
+            <input type="text" id="newuserid" placeholder="User ID eg. 1155" name="newusername" /><br /><br />\
+            <input type="password" id="newpassword" placeholder="Password" name="newpassword" /><br /><br />\
             <h4>Full Name</h4>\
+            <input type="nickname" id="newnickname" placeholder="nickname" name="newnickname" /><br /><br />\
             <input type="text" id="firstname" placeholder="First Name" name="firstname" /><br /><br />\
             <input type="text" id="lastname" placeholder="Last Name" name="lastname" /><br /><br />\
             <input type="date" id="dateofbirth" placeholder="Date of Birth" name="dateofbirth" /><br /><br />\
