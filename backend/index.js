@@ -6,9 +6,12 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const path = require('path');
 
+
+
 // Create an instance of Express application
 var app = express();
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
 // Define Swagger options
 const options = {
     definition: {
@@ -418,8 +421,9 @@ app.delete('/classrooms/:id', (req, res) => {
 // QuizID
 // 11 RESTful API Endpoint: GET /quizid
 // Retrieve all quizzes
-app.get('/quizid', (req, res) => {
-    const userid = req.body;
+app.get('/quizid/:userid', (req, res) => {
+    const userid = req.params.userid;
+    // const userid = dataReceive.userid;
     console.log(userid);
     const sqlQuery = 'SELECT * FROM quizid WHERE quizid.moderator = ?';
     dbConnection.query(sqlQuery, [userid], (error, result) => {
@@ -430,7 +434,6 @@ app.get('/quizid', (req, res) => {
             res.status(200).json({success: true, 
                 message: 'sending quiz name over..',
                 result: result
-                
             });
         }else {
             return res.status(200).json({error: 'No quiz data available.'});

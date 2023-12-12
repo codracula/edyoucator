@@ -165,15 +165,12 @@
 
         $(document).on("click", "#myquiz", function(e) {
           console.log("userid: " + user.userid);
-          console.log(user.userid);
+          // console.log(user.userid);
           e.preventDefault();
           $.ajax({
-                method: 'GET',
-                url: 'http://localhost:3000/quizid',
+                method: "GET",
+                url: "http://localhost:3000/quizid/"+ user.userid,
                 dataType: "json",
-                data: {
-                  userid: user.userid
-                },
                 headers: {'Content-Type': 'application/json' //must be double quoted
                 },
                 // contentType: 'application/json',  //attrib of header
@@ -181,15 +178,60 @@
                   console.log("sucessfully retriving myquiz info");
                 },
                 error: function(jqXHR) {
-                    console.error('Error: ', jqXHR.responseText);
+                    // console.error('Error: ', jqXHR.responseText);
                     console.log("error retrieving my quiz info");
                 }
             }).done(function(result) {
-              user.quizmade=result.result[0];
-              console.log(user.quizmade);
+              user.quizmade = [];
+              user.quizmade.push(result.result[0].quizname);
+
+              // console.log(user.quizmade);
               $(".mainarea").empty();
+              
+              const classroomDiv = $('<div id="classroom-div"></div>');
+              const greet = $('<h3 id="myquiz-menu">My quizzes</h3>');
+              $(".mainarea").append(greet);
+              $(".mainarea").append(classroomDiv);
+              generateGrid(user.quizmade, classroomDiv);
+              var newQuiz = $('<div id="subjectdiv">New quiz</div>').appendTo(classroomDiv);
+              $('<button id="createNewQuiz" class="btn btn-success">Create</button><br>').appendTo(classroomDiv);
+              // $(".mainarea").append(greet);
             });
+
+            function generateGrid(array, classroom) {
+              
+              for (var i =0; i < array.length; i++) {                
+
+                const subjectdiv= $('<div id="subjectdiv">'+ array[i] +'</div>').appendTo(classroom);
+                const subjectbutton = $('<button id="quiz-edit-' + array[i] + '" class="btn btn-success">Edit</button><br>').appendTo(classroom);
+
+                return subjectdiv;
+              }
+              
+              // const subjectdiv = $('<div>').appendTo(table);
+              // $.each(twoColumnData, function (key, value) {
+              //   const tableRow = $('<tr>').appendTo(tbody);
+              //   $('<td style="color: rgb(95, 234, 234)">').text(key).appendTo(tableRow);
+              //   $('<td>').text(value).appendTo(tableRow);
+              // });
+              // return table;
+            }
         });
+        // wip
+        // $(document).on("click", "#quiz-edit-Algebra", function(e) {
+        //   $(".mainarea").empty();
+
+        //   function quizGrid(question, quiz) {
+              
+        //     for (var i =0; i < quiz.length; i++) {                
+
+        //       const subjectdiv= $('<div id="subjectdiv">'+ array[i] +'</div>').appendTo(classroom);
+        //       const subjectbutton = $('<button id="quiz-edit-' + array[i] + '" class="btn btn-success">Edit</button><br>').appendTo(classroom);
+
+        //       return subjectdiv;
+        //     }
+        //   }
+        // }
 
         $("#regsubmit").on("submit", "#registrationForm", function(e) {
           e.preventDefault();

@@ -88,3 +88,21 @@ li {
     align-self: flex-start;
     margin: 15px 15px;
 }
+
+#classroom-div {
+    display:flex;
+    width: 95%;
+    text-align: center;
+}
+
+#subjectdiv {
+    border: 1px solid #666666;
+    background-color: #ffffff;
+    padding: 10px 0px;
+    width: 200px;
+    
+}
+
+#myquiz-menu {
+    color: rgb(68, 156, 156);
+}
