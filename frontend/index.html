@@ -171,9 +171,9 @@
                 method: 'GET',
                 url: 'http://localhost:3000/quizid',
                 dataType: "json",
-                data: JSON.stringify({
-                  userid: user.userid,
-                }),
+                data: {
+                  userid: user.userid
+                },
                 headers: {'Content-Type': 'application/json' //must be double quoted
                 },
                 // contentType: 'application/json',  //attrib of header

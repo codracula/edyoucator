@@ -419,7 +419,7 @@ app.delete('/classrooms/:id', (req, res) => {
 // 11 RESTful API Endpoint: GET /quizid
 // Retrieve all quizzes
 app.get('/quizid', (req, res) => {
-    const userid = parseInt(req.body.userid);
+    const userid = req.body;
     console.log(userid);
     const sqlQuery = 'SELECT * FROM quizid WHERE quizid.moderator = ?';
     dbConnection.query(sqlQuery, [userid], (error, result) => {
