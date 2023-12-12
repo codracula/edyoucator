@@ -1136,9 +1136,13 @@ app.get('/quizzes/chemistry', (req, res) => {
     });
 });
 
-
 app.post('/quizzes/check-answer', (req, res) => {
     const { questionId, userAnswer } = req.body;
+
+    if (!questionId || !userAnswer) {
+        return res.status(400).json({ error: 'Missing questionId or userAnswer' });
+    }
+
     const sqlQuery = 'SELECT answer FROM quizzes WHERE questionnumber = ?';
 
     dbConnection.query(sqlQuery, [questionId], (error, result) => {
@@ -1147,7 +1151,6 @@ app.post('/quizzes/check-answer', (req, res) => {
         }
 
         if (result.length === 0) {
-            // Handle the case where no matching question is found
             return res.status(404).json({ error: 'Question not found.' });
         }
 
@@ -1156,8 +1159,6 @@ app.post('/quizzes/check-answer', (req, res) => {
         return res.status(200).json({ correct: isCorrect });
     });
 });
-
-
 
 // Server listening on port 3000
 app.listen(3000, () => {
